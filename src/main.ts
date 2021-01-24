@@ -1,6 +1,6 @@
 type Arr = Array<number | string | boolean>
 
-function isInArray(arr: Arr, ...arg: Arr): boolean {
+export function isInArray(arr: Arr, ...arg: Arr): boolean {
     return !arr.some(arrItem => !arg.some(argument => arrItem === argument));
 }
 
@@ -12,7 +12,13 @@ console.log(isInArray([5, '8', false], 5, '12', false)); // false
 
 type sumParam = number | string;
 
-function sumator(a: sumParam, b: sumParam): sumParam {
+export function sumator(a: sumParam, b: sumParam): sumParam | Error {
+    if (!Number.isFinite(+a) || !Number.isFinite(+b)) {
+        throw new Error('The function accepts only arguments as numbers!');
+    }
+    if (typeof a === 'boolean' || typeof b === 'boolean') {
+        throw new Error('The function accepts only arguments as numbers!');
+    }
     return +a + +b;
 }
 
@@ -22,7 +28,7 @@ console.log(sumator(10, 20)); // 30
 
 // ----------------------------------------------
 
-function getUnique(arr: any[]): any[] {
+export function getUnique(arr: any[]): any[] {
  return Array.from(new Set(arr));
 }
 
@@ -31,10 +37,10 @@ console.log(getUnique([1, 'str', false, 'str', {name: 'Alex'}, 1, null])); // [1
 // ----------------------------------------------
 
 function isLetter(letter: string) {
-    return letter.search(/[a-zAZ]/) === -1;
+    return letter.search(/[a-zAZ]/) !== -1;
 }
 
-function turnWords(str: string): string {
+export function turnWords(str: string): string {
     let arrWords = str.split(' ');
 
     const arrWordsOnlyLetters = arrWords.map(word => {
